@@ -1,0 +1,201 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px;
+}
+i{
+margin-right: 10px;
+margin-left: 10px;}
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+.dives{
+height:50px;
+width:5000px;
+}
+.textboxtransparent{
+ background: transparent;
+    border: none;
+}
+.non-textboxtransparent
+{
+    background:#c2c2a3;
+}
+</style>
+<title>JS Task</title>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+<body>
+<input type="text" id="ip" placeholder="Enter Elements"/>
+<input type="button" id="add" value="Add" onclick="addtextbox()">
+<br><br>
+<div id="maindiv" style="width:100px, border:3px solid;"></div>
+<script>
+var beforeedittxt;
+var input = document.getElementById("ip");
+input.addEventListener("keyup", function(event) {
+  if (event.keyCode === 13) {
+   event.preventDefault();
+   document.getElementById("add").click();
+  }
+});
+var textid="textid";
+var divid="divid";
+var idnum=0;
+function addtextbox()
+{
+idnum++;
+  textidfull=textid+idnum;
+diveid=divid+idnum;
+//adding text to text boxes
+var asigntext=document.getElementById("ip").value;
+document.getElementById("ip").value="";
+
+//checking validation
+if(asigntext=="")
+{
+alert("enter text first");
+return false;
+}
+
+var txtboxtxt=document.getElementById("ip").text;
+//Create an input type and div elements dynamically.
+var element = document.createElement("input");
+var breakline=document.createElement("br");
+var breakline3=document.createElement("br");
+var breakline1=document.createElement("br");
+var dive=document.createElement("div");
+//save and cancel
+var save1=document.createElement("i");
+var cancel1=document.createElement("i");
+save1.setAttribute("class","fa fa-save");
+save1.setAttribute("style","color:#c2c2a3");
+
+cancel1.setAttribute("class","fa fa-close");
+cancel1.setAttribute("style","color:#c2c2a3");
+
+dive.setAttribute("id",diveid);
+dive.setAttribute("class","dives");
+element.setAttribute("class","");
+element.value=asigntext;
+element.setAttribute("class","textboxtransparent");
+//adding edit and delete button  
+
+
+
+  
+var ie=document.createElement("i");
+ie.setAttribute("class","fa fa-pencil-alt tooltip");
+ie.setAttribute("style","color:#c2c2a3");
+
+
+
+var ie1=document.createElement("i");
+ie1.setAttribute("class","fa fa-trash-alt");
+ie1.setAttribute("style","color:#c2c2a3");
+
+//Assign different attributes to the element.
+element.setAttribute("type", "text");
+element.setAttribute("readonly", true);
+element.setAttribute("value", "");
+element.setAttribute("id",textidfull);
+element.setAttribute("size","50");
+element.setAttribute("outline","none");
+//tooltip section
+var idiv=document.createElement("div");
+idiv.setAttribute("class","tooltip");
+
+//span element creation
+
+
+//adding event listener of EDIT
+    ie.addEventListener("click", function(event) {
+	var initialtext1=event.target.parentNode.id;
+	document.getElementById(initialtext1).children[0].focus();
+	document.getElementById(initialtext1).children[0].removeAttribute("readonly");
+                        // document.getElementById(textidfull).removeAttribute("readonly");
+  //actions to disable edit and delete icons
+    document.getElementById(initialtext1).children[0].className="non-textboxtransparent";
+   beforeedittxt=document.getElementById(initialtext1).children[0].value;
+   //trying replace
+    dive.replaceChild(save1,ie);
+	dive.replaceChild(cancel1,ie1);
+   dive.appendChild(breakline3);
+ });
+   
+  //adding event listener for DELETE
+  ie1.addEventListener("click", function(event) {
+  var r = confirm("confirm to delete this text  !!");
+	 if(r==true)
+	 {
+  event.target.parentElement.remove()
+  }
+  else{return false;}});
+  
+  //adding save action event
+  save1.addEventListener("click",function(event) {
+  if (event.keyCode === 13) {
+   event.preventDefault();
+   document.getElementById("add").click();
+  }
+  var initialtext2=event.target.parentNode.id;
+  var editedtxt=document.getElementById(initialtext2).children[0].value;
+  //assiging edited text to textbox
+  document.getElementById(initialtext2).children[0].value=editedtxt;
+   document.getElementById(initialtext2).children[0].className="textboxtransparent";
+  document.getElementById(initialtext2).children[0].setAttribute("readonly", true);
+  alert("updated sucessfully!!");
+  dive.replaceChild(ie,save1);
+	dive.replaceChild(ie1,cancel1);
+  }
+  )
+  
+  //adding cancel action event
+  cancel1.addEventListener("click",function(event) {
+  var initialtext3=event.target.parentNode.id;
+  document.getElementById(initialtext3).children[0].className="textboxtransparent";
+  document.getElementById(initialtext3).children[0].setAttribute("readonly", true);
+   document.getElementById(initialtext3).children[0].value=beforeedittxt;
+ // alert(beforeedittxt);
+  dive.replaceChild(ie,save1);
+	dive.replaceChild(ie1,cancel1);
+  });
+  
+   
+// 'maindiv' is the div id, where new child div elements are to be added
+var foo = document.getElementById("maindiv");
+//Append the elements in dynamic div element.
+foo.appendChild(dive);
+dive.appendChild(element);
+dive.appendChild(idiv);
+dive.appendChild(ie);
+dive.appendChild(ie1);
+dive.appendChild(breakline);
+dive.appendChild(breakline1);
+}
+
+
+//changeeditanddelete() function defination
+</script>
+</body>
+</html>
